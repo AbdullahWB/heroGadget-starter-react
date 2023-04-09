@@ -4,7 +4,7 @@ import ProductCard from './Cards/ProductCard';
 import { addToDb } from '../Utils/FakeDB';
 
 const Shope = () => {
-    const productData = useLoaderData()
+    const productData = useLoaderData([])
     // console.log(productData)
     const handleAddToCart = id => {
         addToDb(id)
