@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import ProductCard from './Cards/ProductCard';
 import { addToDb } from '../Utils/FakeDB';
+import { productContext } from '../App';
 
 const Shope = () => {
-    const productData = useLoaderData([])
-    // console.log(productData)
+    const productData = useContext(productContext)
+
     const handleAddToCart = id => {
         addToDb(id)
     }

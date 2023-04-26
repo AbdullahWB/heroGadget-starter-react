@@ -1,10 +1,11 @@
-import React from 'react';
-import { getStoredCart } from '../Utils/FakeDB';
+import React, { useContext } from 'react';
+import { deleteShoppingCart, getStoredCart, removeFormDB } from '../Utils/FakeDB';
 import { Link, useLoaderData } from 'react-router-dom';
 import CartItem from './Cards/CartItem';
+import { CartContext } from '../App';
 
 const Cart = () => {
-    const { cartArr, product } = useLoaderData()
+    const cartArr = useContext(CartContext)
     // console.log(cartArr, product);
     let total = 0;
     if (cartArr.length > 0) {
@@ -13,6 +14,13 @@ const Cart = () => {
         }
     }
 
+    const handleRemoveItems = id => {
+        removeFormDB(id)
+    }
+
+    const deleteCartHandler = () => {
+        deleteShoppingCart()
+    }
 
     return <div className='flex min-h-screen items-start justify-center bg-gray-100 text-gray-900'>
         <div className='flex flex-col max-w-3xl p-6 space-y-4 sm:p-10'>
@@ -22,6 +30,7 @@ const Cart = () => {
                     cartArr.map(product => <CartItem
                         key={product.id}
                         product={product}
+                        handleRemoveItems={handleRemoveItems}
                     ></CartItem>)
                 }
             </ul>
@@ -35,7 +44,7 @@ const Cart = () => {
             </div>
             <div className='flex justify-end space-x-4'>
                 {
-                    cartArr.length >0 ? <button className='btn-outlined'>Clear Cart</button> : <Link to="/shop"><button className='btn-outlined'>Bake to cart</button></Link>
+                    cartArr.length >0 ? <button onClick={deleteCartHandler} className='btn-outlined'>Clear Cart</button> : <Link to="/shop"><button className='btn-outlined'>Bake to cart</button></Link>
                 }
                 <button className='btn-primary'>Place Order</button>
             </div>
