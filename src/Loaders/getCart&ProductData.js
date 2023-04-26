@@ -12,6 +12,7 @@ export const productAndCartData = async() => {
             cartArr.push(foundProduct)
         }
     }
-    return {cartArr, products};
+    // console.log(cartArr);
+    return { cartArr, products };
 }
 
