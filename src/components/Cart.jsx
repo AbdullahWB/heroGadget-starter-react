@@ -3,6 +3,7 @@ import { deleteShoppingCart, getStoredCart, removeFormDB } from '../Utils/FakeDB
 import { Link, useLoaderData } from 'react-router-dom';
 import CartItem from './Cards/CartItem';
 import { CartContext } from '../App';
+import { toast } from 'react-hot-toast';
 
 const Cart = () => {
     const [cart, setCart] = useContext(CartContext)
@@ -18,10 +19,26 @@ const Cart = () => {
         const remaining = cart.filter(product => product.id !== id)
         setCart(remaining)
         removeFormDB(id)
+        toast.error('Product Removed! 🔥')
     }
 
     const deleteCartHandler = () => {
         deleteShoppingCart()
+        if (cart.length > 0) {
+            setCart([])
+            deleteShoppingCart()
+            return toast.success('All Items Removed! 👍')
+        }
+        return toast.error('No Shopping Items Available! ⚠️')
+    }
+
+    const orderHandler = () => { 
+        if (cart.length > 0) {
+            setCart([])
+            deleteShoppingCart()
+            return toast.success('Order Done! 👍')
+        }
+        return toast.error('No Shopping Items Available! ⚠️')
     }
 
     return <div className='flex min-h-screen items-start justify-center bg-gray-100 text-gray-900'>
@@ -48,7 +65,7 @@ const Cart = () => {
                 {
                     cart.length >0 ? <button onClick={deleteCartHandler} className='btn-outlined'>Clear Cart</button> : <Link to="/shop"><button className='btn-outlined'>Bake to cart</button></Link>
                 }
-                <button className='btn-primary'>Place Order</button>
+                <button onClick={orderHandler} className='btn-primary'>Place Order</button>
             </div>
         </div>
     </div>
